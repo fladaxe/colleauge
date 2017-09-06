@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import de.bflader.clol.entry.Entry;
 
-public class EntryRecord {
+public class Record {
 
 	@XmlAttribute
 	private String name;

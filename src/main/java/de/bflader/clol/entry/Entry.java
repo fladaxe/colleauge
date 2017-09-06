@@ -1,5 +1,6 @@
 package de.bflader.clol.entry;
 
+import java.util.Calendar;
 import java.util.Observable;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -7,7 +8,9 @@ import javax.xml.bind.annotation.XmlElement;
 import de.bflader.clol.common.Role;
 
 public class Entry extends Observable {
-
+	
+	@XmlElement
+	private Calendar created = Calendar.getInstance();
 	private String opponentChampion;
 	private String playedChampion;
 	private Role role;
@@ -55,5 +58,9 @@ public class Entry extends Observable {
 		this.text = text;
 		setChanged();
 		notifyObservers();
+	}
+
+	public Calendar getCreated() {
+		return created;
 	}
 }
