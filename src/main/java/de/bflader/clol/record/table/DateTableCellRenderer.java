@@ -1,4 +1,4 @@
-package de.bflader.clol.record;
+package de.bflader.clol.record.table;
 
 import java.awt.Component;
 import java.text.SimpleDateFormat;
@@ -7,7 +7,7 @@ import java.util.Date;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-final class DateTableCellRenderer extends DefaultTableCellRenderer {
+public class DateTableCellRenderer extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = 6104943570140629819L;
 
 	@Override

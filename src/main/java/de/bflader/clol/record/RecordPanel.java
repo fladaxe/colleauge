@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import de.bflader.clol.common.UIHelper;
+import de.bflader.clol.record.table.DateTableCellRenderer;
 import de.bflader.clol.record.table.RecordTableModel;
 
 public class RecordPanel extends JPanel {
@@ -39,6 +40,7 @@ public class RecordPanel extends JPanel {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		table.setDefaultRenderer(Date.class, new DateTableCellRenderer());
 		table.getTableHeader().setReorderingAllowed(false);
+		table.setAutoCreateRowSorter(true);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;

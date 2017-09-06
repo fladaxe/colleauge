@@ -18,7 +18,7 @@ public class UIHelper {
 
 	private static final Logger LOGGER = LogManager.getLogger(UIHelper.class);
 
-	public static final Insets DEFAULT_COMPONENT_INSETS = new Insets(6, 6, 6, 6);
+	public static final Insets DEFAULT_COMPONENT_INSETS = new Insets(3, 3, 3, 3);
 
 	private static Map<String, Icon> iconCache = new HashMap<>();
 

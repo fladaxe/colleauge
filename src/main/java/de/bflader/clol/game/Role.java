@@ -1,4 +1,4 @@
-package de.bflader.clol.common;
+package de.bflader.clol.game;
 
 public enum Role {
 	ANY("- Any -"),

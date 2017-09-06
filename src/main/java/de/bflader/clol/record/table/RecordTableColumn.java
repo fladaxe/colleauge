@@ -2,7 +2,7 @@ package de.bflader.clol.record.table;
 
 import java.util.Date;
 
-import de.bflader.clol.common.Role;
+import de.bflader.clol.game.Role;
 
 public enum RecordTableColumn {
 	CREATED("Created", Date.class, 100),

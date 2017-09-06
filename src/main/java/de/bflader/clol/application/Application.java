@@ -19,9 +19,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.bflader.clol.common.Role;
 import de.bflader.clol.common.UIHelper;
 import de.bflader.clol.entry.Entry;
+import de.bflader.clol.game.Role;
 import de.bflader.clol.record.Record;
 import de.bflader.clol.record.RecordPanel;
 

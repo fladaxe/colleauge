@@ -5,7 +5,7 @@ import java.util.Observable;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import de.bflader.clol.common.Role;
+import de.bflader.clol.game.Role;
 
 public class Entry extends Observable {
 
