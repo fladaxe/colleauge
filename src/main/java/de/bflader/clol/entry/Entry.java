@@ -1,6 +1,6 @@
 package de.bflader.clol.entry;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.Observable;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -8,13 +8,13 @@ import javax.xml.bind.annotation.XmlElement;
 import de.bflader.clol.common.Role;
 
 public class Entry extends Observable {
-	
+
 	@XmlElement
-	private Calendar created = Calendar.getInstance();
+	private Date created = new Date();
 	private String opponentChampion;
 	private String playedChampion;
-	private Role role;
-	private String text;
+	private Role role = Role.ANY;
+	private String text = "Extrem langer Text. Extrem langer Text. Extrem langer Text. Extrem langer Text. Extrem langer Text. Extrem langer Text. Extrem langer Text. ";
 
 	@XmlElement
 	public String getOpponentChampion() {
@@ -60,7 +60,7 @@ public class Entry extends Observable {
 		notifyObservers();
 	}
 
-	public Calendar getCreated() {
+	public Date getCreated() {
 		return created;
 	}
 }

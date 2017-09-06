@@ -1,5 +1,6 @@
 package de.bflader.clol.record;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -13,7 +14,7 @@ public class Record {
 	private String name;
 
 	@XmlElement(name = "entry")
-	private List<Entry> entries;
+	private List<Entry> entries = new ArrayList<>();
 
 	public String getName() {
 		return name;

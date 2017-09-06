@@ -2,8 +2,7 @@ package de.bflader.clol.record;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Date;
 
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -11,10 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-
 import de.bflader.clol.common.UIHelper;
+import de.bflader.clol.record.table.RecordTableModel;
 
 public class RecordPanel extends JPanel {
 
@@ -40,14 +37,8 @@ public class RecordPanel extends JPanel {
 	private void setup() {
 		JTable table = new JTable(model);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		List<Integer> widths = Lists.transform(Arrays.asList(RecordTableColumn.values()),
-				new Function<RecordTableColumn, Integer>() {
-					@Override
-					public Integer apply(RecordTableColumn arg0) {
-						return arg0.getWidth();
-					}
-				});
-		UIHelper.setColumnWidths(table, widths.toArray(new Integer[widths.size()]));
+		table.setDefaultRenderer(Date.class, new DateTableCellRenderer());
+		table.getTableHeader().setReorderingAllowed(false);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;

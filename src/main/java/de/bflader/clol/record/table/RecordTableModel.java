@@ -1,8 +1,9 @@
-package de.bflader.clol.record;
+package de.bflader.clol.record.table;
 
 import javax.swing.table.AbstractTableModel;
 
 import de.bflader.clol.entry.Entry;
+import de.bflader.clol.record.Record;
 
 public class RecordTableModel extends AbstractTableModel {
 

@@ -21,6 +21,8 @@ import org.apache.logging.log4j.Logger;
 
 import de.bflader.clol.common.Role;
 import de.bflader.clol.common.UIHelper;
+import de.bflader.clol.entry.Entry;
+import de.bflader.clol.record.Record;
 import de.bflader.clol.record.RecordPanel;
 
 public class Application implements Runnable {
@@ -43,7 +45,12 @@ public class Application implements Runnable {
 		frame.setMinimumSize(new Dimension(800, 600));
 		frame.setLocationRelativeTo(null);
 
-		frame.add(new RecordPanel(), BorderLayout.CENTER);
+		Record record = new Record();
+		record.addEntry(new Entry());
+		record.addEntry(new Entry());
+		record.addEntry(new Entry());
+		record.addEntry(new Entry());
+		frame.add(new RecordPanel(record), BorderLayout.CENTER);
 
 		JPanel controlPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();

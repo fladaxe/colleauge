@@ -1,15 +1,15 @@
-package de.bflader.clol.record;
+package de.bflader.clol.record.table;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import de.bflader.clol.common.Role;
 
 public enum RecordTableColumn {
-	CREATED("Created", Calendar.class, 100),
+	CREATED("Created", Date.class, 100),
 	PLAYED_CHAMPION("Played", String.class, 100),
 	ROLE("Role", Role.class, 75),
 	OPPONENT_CHAMPION("Opponent", String.class, 100),
-	TEXT("Text", String.class, 100000);
+	TEXT("Text", String.class, 150);
 
 	private String name;
 	private Class<?> type;
