@@ -2,23 +2,20 @@ package de.bflader.clol.record;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.Date;
 
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import de.bflader.clol.common.UIHelper;
-import de.bflader.clol.record.table.DateTableCellRenderer;
-import de.bflader.clol.record.table.RecordTableModel;
+import de.bflader.clol.record.table.RecordTable;
 
 public class RecordPanel extends JPanel {
 
 	private static final long serialVersionUID = -8975071090162245440L;
 
-	private RecordTableModel model;
+	private RecordTable table;
 
 	private JButton newButton = new JButton("New");
 	private JButton editButton = new JButton("Edit");
@@ -30,18 +27,11 @@ public class RecordPanel extends JPanel {
 
 	public RecordPanel(Record record) {
 		super(new GridBagLayout());
-		model = new RecordTableModel(record);
+		table = new RecordTable(record);
 		setup();
-
 	}
 
 	private void setup() {
-		JTable table = new JTable(model);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		table.setDefaultRenderer(Date.class, new DateTableCellRenderer());
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setAutoCreateRowSorter(true);
-
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = UIHelper.DEFAULT_COMPONENT_INSETS;
@@ -75,11 +65,11 @@ public class RecordPanel extends JPanel {
 	}
 
 	public void setRecord(Record record) {
-		model.setRecord(record);
+		table.setRecord(record);
 	}
 
 	public Record getRecord() {
-		return model.getRecord();
+		return table.getRecord();
 	}
 
 	public void setNewEntryAction(Action action) {
