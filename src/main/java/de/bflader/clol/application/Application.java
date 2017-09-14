@@ -16,6 +16,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.bflader.clol.application.view.ControlPanel;
+import de.bflader.clol.application.view.StatusPanel;
 import de.bflader.clol.common.UIHelper;
 import de.bflader.clol.persistence.Persistence;
 import de.bflader.clol.record.Record;

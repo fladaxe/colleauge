@@ -86,7 +86,7 @@ public class Persistence {
 	public static void saveRecords(List<Record> records) {
 		for (Record record : records) {
 			try {
-				String filename = DigestUtils.sha1Hex(record.getName()) + ".xml";
+				String filename = getFilename(record);
 				Files.deleteIfExists(Paths.get(filename));
 				try (OutputStream os = Files.newOutputStream(Paths.get(RECORDS_PATH, filename))) {
 					os.write(XmlUtil.convertToXml(record, Record.class).getBytes());
@@ -98,6 +98,19 @@ public class Persistence {
 			} catch (JAXBException e) {
 				LOGGER.error("Failed to marshall record " + record.getName(), e);
 			}
+		}
+	}
+
+	private static String getFilename(Record record) {
+		return DigestUtils.sha1Hex(record.getName()) + ".xml";
+	}
+
+	public static void deleteRecord(Record record) {
+		String filename = getFilename(record);
+		try {
+			Files.deleteIfExists(Paths.get(filename));
+		} catch (IOException e) {
+			LOGGER.warn("Failed to delete file: " + filename, e);
 		}
 	}
 

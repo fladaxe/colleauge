@@ -1,4 +1,4 @@
-package de.bflader.clol.application;
+package de.bflader.clol.application.view;
 
 import java.awt.FlowLayout;
 
