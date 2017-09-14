@@ -1,4 +1,4 @@
-package de.bflader.clol.game;
+package de.bflader.clol.common.game;
 
 import javax.xml.bind.annotation.XmlEnum;
 

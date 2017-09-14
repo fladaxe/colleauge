@@ -1,4 +1,4 @@
-package de.bflader.clol.record.table;
+package de.bflader.clol.common.gui;
 
 import java.awt.Component;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package de.bflader.clol.record;
+package de.bflader.clol.journal;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import de.bflader.clol.entry.Entry;
 
 @XmlRootElement
-public class Record extends Observable {
+public class Journal extends Observable {
 
 	private String name;
 	private List<Entry> entries = new ArrayList<>();
@@ -21,12 +21,11 @@ public class Record extends Observable {
 	private Date created = new Date();
 
 	public void addEntry(Entry entry) {
-		if (entry == null) {
-			return;
+		if (!entries.contains(entry)) {
+			entries.add(entry);
+			setChanged();
+			notifyObservers();
 		}
-		entries.add(entry);
-		setChanged();
-		notifyObservers();
 	}
 
 	public void remove(Entry entry) {
@@ -37,16 +36,19 @@ public class Record extends Observable {
 	}
 
 	public void setName(String name) {
-		if (name != null && name.equals(this.name)) {
-			return;
+		if (!name.equals(this.name)) {
+			this.name = name;
+			setChanged();
+			notifyObservers();
 		}
-		this.name = name;
-		setChanged();
-		notifyObservers();
 	}
 
 	public void setFilePath(Path path) {
-		this.filePath = path;
+		if (path.equals(path)) {
+			this.filePath = path;
+			setChanged();
+			notifyObservers();
+		}
 	}
 
 	public List<Entry> getEntries() {

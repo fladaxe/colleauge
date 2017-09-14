@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import de.bflader.clol.common.UIHelper;
-import de.bflader.clol.game.Role;
+import de.bflader.clol.common.game.Role;
+import de.bflader.clol.common.gui.UIHelper;
 
 public class EntryPanel extends JPanel {
 

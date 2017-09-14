@@ -1,4 +1,4 @@
-package de.bflader.clol.common;
+package de.bflader.clol.common.gui;
 
 import java.awt.Component;
 import java.awt.Insets;

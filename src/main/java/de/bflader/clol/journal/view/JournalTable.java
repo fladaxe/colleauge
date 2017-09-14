@@ -1,24 +1,25 @@
-package de.bflader.clol.record.table;
+package de.bflader.clol.journal.view;
 
 import java.util.Date;
 import java.util.Enumeration;
 
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumn;
 
-import de.bflader.clol.record.Record;
+import de.bflader.clol.common.gui.DateTableCellRenderer;
 
-public class RecordTable extends JTable {
+public class JournalTable extends JTable {
 
 	private static final long serialVersionUID = 5093541026718964069L;
 
-	private RecordTableModel model;
+	public JournalTableModel model = new JournalTableModel();
 
-	public RecordTable(Record record) {
+	public JournalTable() {
 		super();
-		model = new RecordTableModel(record);
 		setModel(model);
 		setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setDefaultRenderer(Date.class, new DateTableCellRenderer());
 		getTableHeader().setReorderingAllowed(false);
 		setAutoCreateRowSorter(true);
@@ -29,18 +30,10 @@ public class RecordTable extends JTable {
 		Enumeration<TableColumn> columns = getTableHeader().getColumnModel().getColumns();
 		while (columns.hasMoreElements()) {
 			TableColumn column = columns.nextElement();
-			RecordTableColumn recordColumn = RecordTableColumn.values()[column.getModelIndex()];
-			column.setMinWidth(recordColumn.getMinWidth());
-			column.setPreferredWidth(recordColumn.getPreferredWidth());
+			JournalTableColumns journalColumn = JournalTableColumns.values()[column.getModelIndex()];
+			column.setMinWidth(journalColumn.getMinWidth());
+			column.setPreferredWidth(journalColumn.getPreferredWidth());
 		}
-	}
-
-	public Record getRecord() {
-		return model.getRecord();
-	}
-
-	public void setRecord(Record record) {
-		model.setRecord(record);
 	}
 
 }

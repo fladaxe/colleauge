@@ -1,17 +1,16 @@
 package de.bflader.clol.entry;
 
 import java.util.Date;
-import java.util.Observable;
 
-import de.bflader.clol.game.Role;
+import de.bflader.clol.common.game.Role;
 
-public class Entry extends Observable {
+public class Entry {
 
 	private Date created = new Date();
 	private String opponentChampion;
 	private String playedChampion;
 	private Role role = Role.ANY;
-	private String text = "Extrem langer Text. Extrem langer Text. Extrem langer Text. Extrem langer Text. Extrem langer Text. Extrem langer Text. Extrem langer Text. ";
+	private String text;
 
 	public String getOpponentChampion() {
 		return opponentChampion;
@@ -35,25 +34,17 @@ public class Entry extends Observable {
 
 	public void setOpponentChampion(String opponentChampion) {
 		this.opponentChampion = opponentChampion;
-		setChanged();
-		notifyObservers();
 	}
 
 	public void setPlayedChampion(String playedChampion) {
 		this.playedChampion = playedChampion;
-		setChanged();
-		notifyObservers();
 	}
 
 	public void setRole(Role role) {
 		this.role = role;
-		setChanged();
-		notifyObservers();
 	}
 
 	public void setText(String text) {
 		this.text = text;
-		setChanged();
-		notifyObservers();
 	}
 }
