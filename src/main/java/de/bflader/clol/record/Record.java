@@ -1,12 +1,13 @@
 package de.bflader.clol.record;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import de.bflader.clol.entry.Entry;
 
@@ -14,27 +15,10 @@ import de.bflader.clol.entry.Entry;
 public class Record extends Observable {
 
 	private String name;
-
-	@XmlElement(name = "entry")
 	private List<Entry> entries = new ArrayList<>();
-
-	@XmlAttribute
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		if (name != null && name.equals(this.name)) {
-			return;
-		}
-		this.name = name;
-		setChanged();
-		notifyObservers();
-	}
-
-	public List<Entry> getEntries() {
-		return entries;
-	}
+	@XmlTransient
+	private Path filePath;
+	private Date created = new Date();
 
 	public void addEntry(Entry entry) {
 		if (entry == null) {
@@ -50,6 +34,36 @@ public class Record extends Observable {
 			setChanged();
 			notifyObservers();
 		}
+	}
+
+	public void setName(String name) {
+		if (name != null && name.equals(this.name)) {
+			return;
+		}
+		this.name = name;
+		setChanged();
+		notifyObservers();
+	}
+
+	public void setFilePath(Path path) {
+		this.filePath = path;
+	}
+
+	public List<Entry> getEntries() {
+		return entries;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	@XmlTransient
+	public Path getFilePath() {
+		return filePath;
+	}
+
+	public Date getCreated() {
+		return created;
 	}
 
 	@Override

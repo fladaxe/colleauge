@@ -1,5 +1,6 @@
 package de.bflader.clol.common;
 
+import java.awt.Component;
 import java.awt.Insets;
 import java.net.URL;
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -44,5 +46,9 @@ public class UIHelper {
 			column.setPreferredWidth(width);
 			column.setMinWidth(75);
 		}
+	}
+
+	public static String getStringFromUser(String message, Component parent) {
+		return JOptionPane.showInputDialog(parent, message);
 	}
 }

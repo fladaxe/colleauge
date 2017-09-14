@@ -65,12 +65,13 @@ public class Persistence {
 			files.forEach(new Consumer<Path>() {
 				@Override
 				public void accept(Path path) {
-					LOGGER.debug(path);
 					if (!path.toString().endsWith(".xml")) {
 						return;
 					}
 					try {
-						records.add(XmlUtil.unmarshall(path.toFile(), Record.class));
+						Record record = XmlUtil.unmarshall(path.toFile(), Record.class);
+						record.setFilePath(path);
+						records.add(record);
 					} catch (JAXBException e) {
 						LOGGER.error("Failed to unmarshall " + path, e);
 					}
@@ -83,34 +84,41 @@ public class Persistence {
 		return records;
 	}
 
-	public static void saveRecords(List<Record> records) {
-		for (Record record : records) {
-			try {
-				String filename = getFilename(record);
-				Files.deleteIfExists(Paths.get(filename));
-				try (OutputStream os = Files.newOutputStream(Paths.get(RECORDS_PATH, filename))) {
-					os.write(XmlUtil.convertToXml(record, Record.class).getBytes());
-				}
-			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException("Failed to create filename: " + record.getName(), e);
-			} catch (IOException e) {
-				LOGGER.error("Excpetion during save process for record " + record.getName(), e);
-			} catch (JAXBException e) {
-				LOGGER.error("Failed to marshall record " + record.getName(), e);
+	public static void saveRecord(Record record) {
+		try {
+			Path path = record.getFilePath();
+			if (path == null) {
+				path = Paths.get(RECORDS_PATH, generateFilename(record));
 			}
+			String xmlString = XmlUtil.convertToXml(record, Record.class);
+			Files.deleteIfExists(path);
+			try (OutputStream os = Files.newOutputStream(path)) {
+				os.write(xmlString.getBytes());
+				LOGGER.debug("Saved record: " + record.getName());
+			}
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("Failed to create filename: " + record.getName(), e);
+		} catch (IOException e) {
+			LOGGER.error("Excpetion during save process for record " + record.getName(), e);
+		} catch (JAXBException e) {
+			LOGGER.error("Failed to marshall record " + record.getName(), e);
 		}
 	}
 
-	private static String getFilename(Record record) {
-		return DigestUtils.sha1Hex(record.getName()) + ".xml";
+	private static String generateFilename(Record record) {
+		return DigestUtils.sha1Hex(record.getName() + record.getCreated().getTime()) + ".xml";
 	}
 
 	public static void deleteRecord(Record record) {
-		String filename = getFilename(record);
+		if (record == null || record.getFilePath() == null) {
+			return;
+		}
+		Path path = record.getFilePath();
 		try {
-			Files.deleteIfExists(Paths.get(filename));
+			Files.deleteIfExists(path);
+			LOGGER.debug("Deleted record: " + record.getName());
 		} catch (IOException e) {
-			LOGGER.warn("Failed to delete file: " + filename, e);
+			LOGGER.warn("Failed to delete file: " + path, e);
 		}
 	}
 

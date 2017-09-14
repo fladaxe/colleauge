@@ -1,5 +1,8 @@
 package de.bflader.clol.game;
 
+import javax.xml.bind.annotation.XmlEnum;
+
+@XmlEnum
 public enum Role {
 	ANY("- Any -"),
 	TOP("Top"),

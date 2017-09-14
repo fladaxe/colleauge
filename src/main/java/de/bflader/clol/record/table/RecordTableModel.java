@@ -2,12 +2,17 @@ package de.bflader.clol.record.table;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import de.bflader.clol.entry.Entry;
 import de.bflader.clol.record.Record;
 
 public class RecordTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = -2926095521089177791L;
+
+	private static final Logger LOGGER = LogManager.getLogger(RecordTableModel.class);
 
 	private Record record;
 
@@ -68,6 +73,7 @@ public class RecordTableModel extends AbstractTableModel {
 	public void setRecord(Record record) {
 		this.record = record;
 		this.fireTableDataChanged();
+		LOGGER.debug("Table changed.");
 	}
 
 }

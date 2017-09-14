@@ -24,6 +24,9 @@ public class StatusPanel extends JPanel {
 	}
 
 	public void setStatus(String message, Icon icon) {
+		if(message == null){
+			message = " ";
+		}
 		label.setText(message);
 		label.setIcon(icon);
 	}
