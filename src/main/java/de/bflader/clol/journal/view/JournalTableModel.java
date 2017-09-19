@@ -74,7 +74,9 @@ public class JournalTableModel extends AbstractTableModel implements Observer {
 			this.journal.deleteObserver(this);
 		}
 		this.journal = journal;
-		this.journal.addObserver(this);
+		if (this.journal != null) {
+			this.journal.addObserver(this);
+		}
 		fireTableDataChanged();
 		LOGGER.debug("Table changed.");
 	}
@@ -84,8 +86,12 @@ public class JournalTableModel extends AbstractTableModel implements Observer {
 		fireTableDataChanged();
 	}
 
-	public Entry getEntry(int modelIndex) {
-		return journal.getEntries().get(modelIndex);
+	public Entry getEntry(int index) {
+		return journal.getEntries().get(index);
+	}
+	
+	public int getIndex(Entry entry){
+		return journal.getEntries().indexOf(entry);
 	}
 
 }

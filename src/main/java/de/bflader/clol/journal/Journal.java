@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -16,7 +17,6 @@ public class Journal extends Observable {
 
 	private String name;
 	private List<Entry> entries = new ArrayList<>();
-	@XmlTransient
 	private Path filePath;
 	private Date created = new Date();
 
@@ -51,10 +51,12 @@ public class Journal extends Observable {
 		}
 	}
 
+	@XmlElement(name = "entry")
 	public List<Entry> getEntries() {
 		return entries;
 	}
 
+	@XmlElement
 	public String getName() {
 		return name;
 	}
@@ -64,6 +66,7 @@ public class Journal extends Observable {
 		return filePath;
 	}
 
+	@XmlElement
 	public Date getCreated() {
 		return created;
 	}

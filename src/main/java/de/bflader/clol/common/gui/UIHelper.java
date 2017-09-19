@@ -51,4 +51,9 @@ public class UIHelper {
 	public static String getStringFromUser(String message, Component parent) {
 		return JOptionPane.showInputDialog(parent, message);
 	}
+
+	public static boolean getConfirmationFromUser(String message, Component parent) {
+		return JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(parent, message, "Confirmation",
+				JOptionPane.OK_CANCEL_OPTION);
+	}
 }

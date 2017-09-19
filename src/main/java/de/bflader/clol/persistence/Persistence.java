@@ -1,5 +1,7 @@
 package de.bflader.clol.persistence;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -30,6 +32,7 @@ public class Persistence {
 	private static final String BASE_PATH = Paths.get(System.getProperty("user.home"), ".clol").toString();
 	private static final String JOURNALS_PATH = Paths.get(BASE_PATH, "journals").toString();
 	private static final String CONFIG_PATH = Paths.get(BASE_PATH, "config.properties").toString();
+	private static final String CHAMP_BACKUP_PATH = Paths.get(BASE_PATH, "champions.txt").toString();
 
 	public static void prepareFolder() {
 		prepare(BASE_PATH);
@@ -122,6 +125,29 @@ public class Persistence {
 			LOGGER.error("Failed to save config.", e);
 		}
 
+	}
+
+	public static List<String> loadChampionBackup() {
+		List<String> champs = new ArrayList<>();
+		try {
+			champs.addAll(Files.readAllLines(Paths.get(CHAMP_BACKUP_PATH)));
+		} catch (IOException e) {
+			LOGGER.warn("No champion backup found!");
+		}
+		return champs;
+	}
+
+	public static void saveChampionBackup(List<String> champs) {
+		try {
+			Files.deleteIfExists(Paths.get(CHAMP_BACKUP_PATH));
+			try (BufferedWriter writer = new BufferedWriter(new FileWriter(CHAMP_BACKUP_PATH))) {
+				for (String champ : champs) {
+					writer.write(champ + System.getProperty("line.separator"));
+				}
+			}
+		} catch (IOException e) {
+			LOGGER.error("Failed to save champion backup!", e);
+		}
 	}
 
 }

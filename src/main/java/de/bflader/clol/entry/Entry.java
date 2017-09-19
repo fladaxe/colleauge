@@ -6,9 +6,11 @@ import de.bflader.clol.common.game.Role;
 
 public class Entry {
 
+	public static String ANY_CHAMPION = "- Any -";
+
 	private Date created = new Date();
-	private String opponentChampion;
-	private String playedChampion;
+	private String opponentChampion = ANY_CHAMPION;
+	private String playedChampion = ANY_CHAMPION;
 	private Role role = Role.ANY;
 	private String text;
 

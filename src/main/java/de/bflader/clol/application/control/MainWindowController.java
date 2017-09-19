@@ -1,6 +1,8 @@
 package de.bflader.clol.application.control;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -9,9 +11,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.bflader.clol.application.view.MainWindow;
-import de.bflader.clol.common.game.Role;
 import de.bflader.clol.common.gui.UIHelper;
 import de.bflader.clol.entry.Entry;
+import de.bflader.clol.entry.EntryEditor;
 import de.bflader.clol.journal.Journal;
 import de.bflader.clol.persistence.Persistence;
 import javafx.collections.ObservableList;
@@ -38,6 +40,13 @@ public class MainWindowController extends WindowAdapter {
 		window.journalPanel.newButton.addActionListener(this::onNewEntry);
 		window.journalPanel.editButton.addActionListener(this::onEditEntry);
 		window.journalPanel.deleteButton.addActionListener(this::onDeleteEntry);
+		window.journalPanel.table.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent me) {
+				if (me.getClickCount() == 2) {
+					onEditEntry(null);
+				}
+			}
+		});
 	}
 
 	private void onJournalSelectionChanged(ActionEvent e) {
@@ -58,8 +67,10 @@ public class MainWindowController extends WindowAdapter {
 	private void onDeletejournal(ActionEvent e) {
 		Journal journal = window.controlPanel.model.getSelectedItem();
 		if (journal != null) {
-			Persistence.deletejournal(journal);
-			journals.remove(journal);
+			if (UIHelper.getConfirmationFromUser("Delete '" + journal.getName() + "'?", window.frame)) {
+				Persistence.deletejournal(journal);
+				journals.remove(journal);
+			}
 		}
 	}
 
@@ -73,20 +84,36 @@ public class MainWindowController extends WindowAdapter {
 
 	}
 
-	private int cnt = 0;
-
 	private void onNewEntry(ActionEvent e) {
 		Journal journal = window.controlPanel.model.getSelectedItem();
-		Entry entry = new Entry();
-		entry.setPlayedChampion("Lee Sin");
-		entry.setOpponentChampion("Shaco");
-		entry.setRole(Role.JUNGLE);
-		entry.setText("#" + cnt++);
-		journal.addEntry(entry);
+		if(journal != null){
+			Entry entry = new Entry();
+			EntryEditor editor = new EntryEditor(window.frame);
+			editor.setValuesFrom(entry);
+			editor.setModal(true);
+			editor.setVisible(true);
+			if(editor.exitedWithSave()){
+				editor.writeToEntry(entry);
+				journal.addEntry(entry);
+				window.journalPanel.table.model.fireTableDataChanged();
+			}
+		}
 	}
 
 	private void onEditEntry(ActionEvent e) {
-
+		int selectedRow = window.journalPanel.table.getSelectedRow();
+		if (selectedRow > -1) {
+			int modelIndex = window.journalPanel.table.convertRowIndexToModel(selectedRow);
+			Entry entry = window.journalPanel.table.model.getEntry(modelIndex);
+			EntryEditor editor = new EntryEditor(window.frame);
+			editor.setValuesFrom(entry);
+			editor.setModal(true);
+			editor.setVisible(true);
+			if(editor.exitedWithSave()){
+				editor.writeToEntry(entry);
+				window.journalPanel.table.model.fireTableDataChanged();
+			}
+		}
 	}
 
 	private void onDeleteEntry(ActionEvent e) {

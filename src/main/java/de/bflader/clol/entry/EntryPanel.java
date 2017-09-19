@@ -3,6 +3,7 @@ package de.bflader.clol.entry;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.KeyboardFocusManager;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import de.bflader.clol.common.game.RiotApiHelper;
 import de.bflader.clol.common.game.Role;
 import de.bflader.clol.common.gui.UIHelper;
 
@@ -17,24 +19,22 @@ public class EntryPanel extends JPanel {
 
 	private static final long serialVersionUID = 8129560510781148852L;
 
-	private Entry entry;
-
-	private JComboBox<String> playedChampion = new JComboBox<>();;
-	private JComboBox<String> opponentChampion = new JComboBox<>();
-	private JComboBox<Role> role = new JComboBox<>(Role.values());
-	private JTextArea textArea = new JTextArea();
+	public JComboBox<String> playedChampion = new JComboBox<>();;
+	public JComboBox<String> opponentChampion = new JComboBox<>();
+	public JComboBox<Role> role = new JComboBox<>(Role.values());
+	public JTextArea textArea = new JTextArea();
 
 	public EntryPanel() {
-		this(null);
-	}
-
-	public EntryPanel(Entry entry) {
 		super();
 		setup();
-		setEntry(entry);
 	}
 
 	private void setup() {
+		List<String> champions = RiotApiHelper.getChampions();
+		champions.add(0, "- Any -");
+		playedChampion = new JComboBox<>(champions.toArray(new String[champions.size()]));
+		opponentChampion = new JComboBox<>(champions.toArray(new String[champions.size()]));
+
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 		JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -69,19 +69,5 @@ public class EntryPanel extends JPanel {
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
 		add(scrollPane, c);
-	}
-
-	public Entry getEntry() {
-		return entry;
-	}
-
-	public void setEntry(Entry entry) {
-		this.entry = entry;
-		if (entry != null) {
-			playedChampion.setSelectedItem(entry.getPlayedChampion());
-			opponentChampion.setSelectedItem(entry.getOpponentChampion());
-			role.setSelectedItem(entry.getRole());
-			textArea.setText(entry.getText());
-		}
 	}
 }
