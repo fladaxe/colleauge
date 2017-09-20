@@ -34,10 +34,12 @@ public class JournalPanel extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = UIHelper.DEFAULT_COMPONENT_INSETS;
+
 		c.weightx = 1;
 		c.weighty = 1;
 		c.gridwidth = 5;
-		add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER), c);
+		add(new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
+				c);
 
 		c.gridwidth = 1;
 		c.anchor = GridBagConstraints.EAST;

@@ -24,8 +24,6 @@ public class EntryEditor extends JDialog {
 	public EntryEditor(Frame parent) {
 		super(parent);
 		setLayout(new BorderLayout());
-		setMinimumSize(new Dimension(600, 400));
-		setLocationRelativeTo(parent);
 		saveButton.addActionListener(this::onSaveButtonClick);
 		cancelButton.addActionListener(this::onCancelButtonClick);
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -34,6 +32,9 @@ public class EntryEditor extends JDialog {
 		add(entryPanel, BorderLayout.CENTER);
 		add(buttonPanel, BorderLayout.SOUTH);
 		pack();
+		setResizable(false);
+		setMinimumSize(new Dimension(500,getHeight()));
+		setLocationRelativeTo(parent);
 	}
 
 	private void onSaveButtonClick(ActionEvent e) {

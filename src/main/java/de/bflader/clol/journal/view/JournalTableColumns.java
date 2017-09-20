@@ -5,11 +5,12 @@ import java.util.Date;
 import de.bflader.clol.common.game.Role;
 
 public enum JournalTableColumns {
-	CREATED("Created", Date.class, 80,80),
-	PLAYED_CHAMPION("Played", String.class, 100,100),
-	ROLE("Role", Role.class, 80,80),
-	OPPONENT_CHAMPION("Opponent", String.class, 100,100),
-	TEXT("Text", String.class, 200,4000);
+	CREATED("Created", Date.class, 90, 90),
+	RATING("Rating", Integer.class, 110, 110),
+	PLAYED_CHAMPION("Played", String.class, 90, 90),
+	ROLE("Role", Role.class, 90, 90),
+	OPPONENT_CHAMPION("Opponent", String.class, 90, 90),
+	TEXT("Text", String.class, 200, 4000);
 
 	private String name;
 	private Class<?> type;

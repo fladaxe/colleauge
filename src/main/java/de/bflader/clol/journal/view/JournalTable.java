@@ -8,6 +8,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumn;
 
 import de.bflader.clol.common.gui.DateTableCellRenderer;
+import de.bflader.clol.common.gui.RatingRenderer;
 
 public class JournalTable extends JTable {
 
@@ -21,6 +22,7 @@ public class JournalTable extends JTable {
 		setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setDefaultRenderer(Date.class, new DateTableCellRenderer());
+		setDefaultRenderer(Integer.class, new RatingRenderer());
 		getTableHeader().setReorderingAllowed(false);
 		setAutoCreateRowSorter(true);
 		adjustColumnWidths();
@@ -35,5 +37,4 @@ public class JournalTable extends JTable {
 			column.setPreferredWidth(journalColumn.getPreferredWidth());
 		}
 	}
-
 }

@@ -52,6 +52,8 @@ public class JournalTableModel extends AbstractTableModel implements Observer {
 		switch (column) {
 		case CREATED:
 			return entry.getCreated();
+		case RATING:
+			return entry.getRating();
 		case OPPONENT_CHAMPION:
 			return entry.getOpponentChampion();
 		case PLAYED_CHAMPION:

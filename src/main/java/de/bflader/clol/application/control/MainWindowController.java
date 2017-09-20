@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.AbstractAction;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,6 +49,18 @@ public class MainWindowController extends WindowAdapter {
 				}
 			}
 		});
+
+		String aCommmand = "ESCAPE";
+		window.frame.getRootPane().getInputMap().put(null, aCommmand);
+		window.frame.getRootPane().getActionMap().put(aCommmand, new AbstractAction() {
+			private static final long serialVersionUID = -5089207966171435499L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				onQuit(null);
+			}
+
+		});
 	}
 
 	private void onJournalSelectionChanged(ActionEvent e) {
@@ -86,13 +100,13 @@ public class MainWindowController extends WindowAdapter {
 
 	private void onNewEntry(ActionEvent e) {
 		Journal journal = window.controlPanel.model.getSelectedItem();
-		if(journal != null){
+		if (journal != null) {
 			Entry entry = new Entry();
 			EntryEditor editor = new EntryEditor(window.frame);
 			editor.setValuesFrom(entry);
 			editor.setModal(true);
 			editor.setVisible(true);
-			if(editor.exitedWithSave()){
+			if (editor.exitedWithSave()) {
 				editor.writeToEntry(entry);
 				journal.addEntry(entry);
 				window.journalPanel.table.model.fireTableDataChanged();
@@ -109,7 +123,7 @@ public class MainWindowController extends WindowAdapter {
 			editor.setValuesFrom(entry);
 			editor.setModal(true);
 			editor.setVisible(true);
-			if(editor.exitedWithSave()){
+			if (editor.exitedWithSave()) {
 				editor.writeToEntry(entry);
 				window.journalPanel.table.model.fireTableDataChanged();
 			}
@@ -126,7 +140,13 @@ public class MainWindowController extends WindowAdapter {
 	}
 
 	private void onQuit(ActionEvent e) {
-		Persistence.savejournals(journals);
+		try {
+			if (journals != null) {
+				Persistence.savejournals(journals);
+			}
+		} catch (Exception ex) {
+			LOGGER.error("Something went wrong while saving journals.", ex);
+		}
 		window.frame.dispose();
 	}
 

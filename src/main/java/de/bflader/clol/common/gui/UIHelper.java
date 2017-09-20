@@ -2,10 +2,14 @@ package de.bflader.clol.common.gui;
 
 import java.awt.Component;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -55,5 +59,20 @@ public class UIHelper {
 	public static boolean getConfirmationFromUser(String message, Component parent) {
 		return JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(parent, message, "Confirmation",
 				JOptionPane.OK_CANCEL_OPTION);
+	}
+
+	private static BufferedImage ratingImage = null;
+
+	public static ImageIcon getRatingImage(int rating) {
+		if (ratingImage == null) {
+			InputStream is = UIHelper.class.getClassLoader().getResourceAsStream("rating.png");
+			try {
+				ratingImage = ImageIO.read(is);
+				LOGGER.debug("Image loaded!");
+			} catch (IOException e) {
+				LOGGER.error("Failed to load rating image.", e);
+			}
+		}
+		return new ImageIcon(ratingImage.getSubimage(0, rating * 15, 100, 15));
 	}
 }

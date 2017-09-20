@@ -19,7 +19,7 @@ public class RiotApiHelper {
 	private static final Logger LOGGER = LogManager.getLogger(RiotApiHelper.class);
 
 	private static RiotApi api;
-	private static List<String> champs;
+	private static List<String> champs = new ArrayList<>();
 
 	public static void init(String key) {
 		api = new RiotApi(new ApiConfig().setKey(key));
@@ -30,14 +30,13 @@ public class RiotApiHelper {
 	}
 
 	public static void prepareChampions() {
-		champs = new ArrayList<>();
 		try {
 			for (Champion champ : api.getDataChampionList(Platform.EUW).getData().values()) {
 				champs.add(champ.getName());
 			}
 			Persistence.saveChampionBackup(champs);
 		} catch (RiotApiException e) {
-			LOGGER.warn("Failed to load champions.");
+			LOGGER.warn("Failed to load champions: " +e.getMessage());
 			champs.addAll(Persistence.loadChampionBackup());
 		}
 		Collections.sort(champs);

@@ -11,8 +11,13 @@ public class Entry {
 	private Date created = new Date();
 	private String opponentChampion = ANY_CHAMPION;
 	private String playedChampion = ANY_CHAMPION;
+	private int rating = 5;
 	private Role role = Role.ANY;
 	private String text;
+
+	public Date getCreated() {
+		return created;
+	}
 
 	public String getOpponentChampion() {
 		return opponentChampion;
@@ -20,6 +25,10 @@ public class Entry {
 
 	public String getPlayedChampion() {
 		return playedChampion;
+	}
+
+	public int getRating() {
+		return rating;
 	}
 
 	public Role getRole() {
@@ -30,16 +39,16 @@ public class Entry {
 		return text;
 	}
 
-	public Date getCreated() {
-		return created;
-	}
-
 	public void setOpponentChampion(String opponentChampion) {
 		this.opponentChampion = opponentChampion;
 	}
 
 	public void setPlayedChampion(String playedChampion) {
 		this.playedChampion = playedChampion;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 
 	public void setRole(Role role) {

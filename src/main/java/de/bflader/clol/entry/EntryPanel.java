@@ -8,8 +8,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import de.bflader.clol.common.game.RiotApiHelper;
 import de.bflader.clol.common.game.Role;
@@ -22,7 +21,7 @@ public class EntryPanel extends JPanel {
 	public JComboBox<String> playedChampion = new JComboBox<>();;
 	public JComboBox<String> opponentChampion = new JComboBox<>();
 	public JComboBox<Role> role = new JComboBox<>(Role.values());
-	public JTextArea textArea = new JTextArea();
+	public JTextField textArea = new JTextField();
 
 	public EntryPanel() {
 		super();
@@ -35,39 +34,50 @@ public class EntryPanel extends JPanel {
 		playedChampion = new JComboBox<>(champions.toArray(new String[champions.size()]));
 		opponentChampion = new JComboBox<>(champions.toArray(new String[champions.size()]));
 
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		JScrollPane scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		textArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
 		textArea.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = UIHelper.DEFAULT_COMPONENT_INSETS;
-		int x = 1;
-		c.gridy = 0;
+		c.anchor = GridBagConstraints.LINE_END;
 
-		c.gridx = x++;
-		add(new JLabel("Role"), c);
-		c.gridx = x++;
-		add(role, c);
-		c.gridx = x++;
-		add(new JLabel("Played"), c);
-		c.gridx = x++;
-		add(playedChampion, c);
-		c.gridx = x++;
-		add(new JLabel("Opponent"), c);
-		c.gridx = x++;
-		add(opponentChampion, c);
-		c.gridx = x++;
-
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = x;
+		c.gridheight = 2;
 		c.weightx = 1;
-		c.weighty = 1;
-		c.fill = GridBagConstraints.BOTH;
-		add(scrollPane, c);
+		c.gridx = 0;
+		c.gridy = 0;
+		add(new JPanel(), c);
+
+		c.gridheight = 1;
+		c.weightx = 0;
+		c.gridx = 1;
+		add(new JLabel("Played:"), c);
+		c.gridx = 2;
+		add(playedChampion, c);
+
+		c.gridx = 1;
+		c.gridy = 1;
+		add(new JLabel("Opponent:"), c);
+		c.gridx = 2;
+		add(opponentChampion, c);
+
+		c.gridx = 3;
+		c.gridy = 0;
+		add(new JLabel("Role:"), c);
+		c.gridx = 4;
+		add(role, c);
+
+		c.weightx = 1;
+		c.gridheight = 2;
+		c.gridx++;
+		c.gridx = 5;
+		add(new JPanel(), c);
+
+		c.gridwidth = 6;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 2;
+		add(textArea, c);
 	}
 }
