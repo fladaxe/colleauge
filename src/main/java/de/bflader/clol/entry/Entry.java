@@ -2,11 +2,16 @@ package de.bflader.clol.entry;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import de.bflader.clol.common.game.Role;
 
+@XmlRootElement
 public class Entry {
 
-	public static String ANY_CHAMPION = "- Any -";
+	public static final String ANY_CHAMPION = "- Any -";
 
 	private Date created = new Date();
 	private String opponentChampion = ANY_CHAMPION;
@@ -15,26 +20,32 @@ public class Entry {
 	private Role role = Role.ANY;
 	private String text;
 
+	@XmlAttribute
 	public Date getCreated() {
 		return created;
 	}
 
+	@XmlElement
 	public String getOpponentChampion() {
 		return opponentChampion;
 	}
 
+	@XmlElement
 	public String getPlayedChampion() {
 		return playedChampion;
 	}
 
+	@XmlElement
 	public int getRating() {
 		return rating;
 	}
 
+	@XmlElement
 	public Role getRole() {
 		return role;
 	}
 
+	@XmlElement
 	public String getText() {
 		return text;
 	}
@@ -57,5 +68,9 @@ public class Entry {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 }

@@ -1,4 +1,4 @@
-package de.bflader.clol.entry;
+package de.bflader.clol.entry.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import de.bflader.clol.common.game.Role;
+import de.bflader.clol.entry.Entry;
 
 public class EntryEditor extends JDialog {
 

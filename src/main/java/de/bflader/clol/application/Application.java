@@ -54,10 +54,12 @@ public class Application implements Runnable {
 		try {
 			if (SystemUtils.IS_OS_WINDOWS) {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				LOGGER.debug("Windows detected -> SystemLookAndFeel");
 			} else {
 				for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 					if ("Nimbus".equals(info.getName())) {
 						UIManager.setLookAndFeel(info.getClassName());
+						LOGGER.debug("Nimbus-LookAndFeel set.");
 						break;
 					}
 				}

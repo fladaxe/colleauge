@@ -13,9 +13,6 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,21 +32,12 @@ public class UIHelper {
 			if (imgURL != null) {
 				icon = new ImageIcon(imgURL);
 				iconCache.put(filename, icon);
+				LOGGER.debug("Icon loaded into cache: " + filename);
 			} else {
 				LOGGER.warn("Could not find Icon: " + filename);
 			}
 		}
 		return icon;
-	}
-
-	public static void setColumnWidths(JTable table, Integer... widths) {
-		TableColumnModel columnModel = table.getColumnModel();
-		int i = 0;
-		for (Integer width : widths) {
-			TableColumn column = columnModel.getColumn(i++);
-			column.setPreferredWidth(width);
-			column.setMinWidth(75);
-		}
 	}
 
 	public static String getStringFromUser(String message, Component parent) {
@@ -68,7 +56,7 @@ public class UIHelper {
 			InputStream is = UIHelper.class.getClassLoader().getResourceAsStream("rating.png");
 			try {
 				ratingImage = ImageIO.read(is);
-				LOGGER.debug("Image loaded!");
+				LOGGER.debug("Rating image loaded.");
 			} catch (IOException e) {
 				LOGGER.error("Failed to load rating image.", e);
 			}

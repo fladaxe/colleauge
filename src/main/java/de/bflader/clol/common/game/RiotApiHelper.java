@@ -25,7 +25,9 @@ public class RiotApiHelper {
 		api = new RiotApi(new ApiConfig().setKey(key));
 		try {
 			api.getDataVersions(Platform.EUW);
+			LOGGER.debug("Successfully tested RiotAPI.");
 		} catch (RiotApiException e) {
+			LOGGER.warn("Failed to test the RiotAPI: " + e.getMessage());
 		}
 	}
 
@@ -36,10 +38,14 @@ public class RiotApiHelper {
 			}
 			Persistence.saveChampionBackup(champs);
 		} catch (RiotApiException e) {
-			LOGGER.warn("Failed to load champions: " +e.getMessage());
+			LOGGER.warn("Failed to get champion data: " + e.getMessage());
+		}
+		if (champs.isEmpty()) {
+			LOGGER.debug("Loading champions from backup.");
 			champs.addAll(Persistence.loadChampionBackup());
 		}
 		Collections.sort(champs);
+		LOGGER.debug("Champions prepared.");
 	}
 
 	public static List<String> getChampions() {

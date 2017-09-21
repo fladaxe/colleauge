@@ -19,6 +19,7 @@ public final class RatingRenderer implements TableCellRenderer, ListCellRenderer
 	public Component getListCellRendererComponent(JList<? extends Integer> list, Integer value, int index,
 			boolean isSelected, boolean cellHasFocus) {
 		JLabel label = (JLabel) listRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+		label.setText(null);
 		label.setIcon(UIHelper.getRatingImage((int) value));
 		return label;
 	}
@@ -30,18 +31,6 @@ public final class RatingRenderer implements TableCellRenderer, ListCellRenderer
 				column);
 		label.setIcon(UIHelper.getRatingImage((int) value));
 		return label;
-
-		// Component comp = super.getTableCellRendererComponent(table, value,
-		// isSelected, hasFocus, row, column);
-		// JLabel img = UIHelper.getRatingImage((int) value);
-		// if (isSelected) {
-		// img.setBackground(UIManager.getColor("Table.selectionBackground"));
-		// img.setForeground(UIManager.getColor("Table.selectionForeground"));
-		// } else {
-		// img.setBackground(UIManager.getColor("Table.background"));
-		// img.setForeground(UIManager.getColor("Table.foreground"));
-		// }
-		// return img;
 	}
 
 }

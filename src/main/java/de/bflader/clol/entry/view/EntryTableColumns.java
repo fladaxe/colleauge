@@ -1,10 +1,10 @@
-package de.bflader.clol.journal.view;
+package de.bflader.clol.entry.view;
 
 import java.util.Date;
 
 import de.bflader.clol.common.game.Role;
 
-public enum JournalTableColumns {
+public enum EntryTableColumns {
 	CREATED("Created", Date.class, 90, 90),
 	RATING("Rating", Integer.class, 110, 110),
 	PLAYED_CHAMPION("Played", String.class, 90, 90),
@@ -17,7 +17,7 @@ public enum JournalTableColumns {
 	private int minWidth;
 	private int preferredWidth;
 
-	private JournalTableColumns(String name, Class<?> type, int minWidth, int preferredWidth) {
+	private EntryTableColumns(String name, Class<?> type, int minWidth, int preferredWidth) {
 		this.name = name;
 		this.type = type;
 		this.minWidth = minWidth;

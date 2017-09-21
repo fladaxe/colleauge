@@ -21,7 +21,6 @@ public class StatusPanel extends JPanel {
 	public StatusPanel() {
 		super(new FlowLayout(FlowLayout.RIGHT));
 		add(label);
-		// getInsets().set(6, 6, 6, 6);
 		Border outer = BorderFactory.createEmptyBorder(3, 3, 3, 3);
 		Border inner = BorderFactory.createEtchedBorder();
 		setBorder(BorderFactory.createCompoundBorder(outer, inner));

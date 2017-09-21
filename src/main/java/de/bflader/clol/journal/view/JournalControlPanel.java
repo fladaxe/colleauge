@@ -1,10 +1,8 @@
-package de.bflader.clol.application.view;
+package de.bflader.clol.journal.view;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,10 +11,9 @@ import javax.swing.SwingConstants;
 
 import de.bflader.clol.common.gui.UIHelper;
 import de.bflader.clol.journal.Journal;
-import de.bflader.clol.journal.view.JournalComboBoxModel;
 import javafx.collections.ObservableList;
 
-public class ControlPanel extends JPanel implements Observer {
+public class JournalControlPanel extends JPanel {
 
 	private static final long serialVersionUID = 2563392097558724881L;
 
@@ -27,7 +24,7 @@ public class ControlPanel extends JPanel implements Observer {
 	public JButton quitButton = new JButton("Quit");
 	public JournalComboBoxModel model = new JournalComboBoxModel();
 
-	public ControlPanel() {
+	public JournalControlPanel() {
 		super(new GridBagLayout());
 
 		journalCbb.setModel(model);
@@ -60,9 +57,10 @@ public class ControlPanel extends JPanel implements Observer {
 		c.insets = UIHelper.DEFAULT_COMPONENT_INSETS;
 		c.fill = GridBagConstraints.HORIZONTAL;
 
+		c.weighty = 0;
+		c.gridwidth = 3;
 		c.gridy = 0;
 		c.gridx = 0;
-		c.gridwidth = 3;
 		add(journalCbb, c);
 
 		c.gridwidth = 1;
@@ -97,11 +95,6 @@ public class ControlPanel extends JPanel implements Observer {
 		c.gridy++;
 		c.gridx = 0;
 		add(quitButton, c);
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-
 	}
 
 	public void setJournals(ObservableList<Journal> journals) {

@@ -1,4 +1,4 @@
-package de.bflader.clol.entry;
+package de.bflader.clol.entry.view;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

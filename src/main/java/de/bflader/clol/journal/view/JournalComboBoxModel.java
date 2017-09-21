@@ -34,6 +34,7 @@ public class JournalComboBoxModel extends AbstractListModel<Journal> implements 
 			setSelectedItem(journals.get(0));
 		}
 		fireChangeEvent(null);
+		LOGGER.debug("New list with " + journals.size() + " journals set.");
 	}
 
 	public void fireChangeEvent(Change<? extends Journal> c) {

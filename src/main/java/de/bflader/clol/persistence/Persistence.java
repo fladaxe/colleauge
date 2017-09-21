@@ -5,13 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBException;
@@ -35,34 +35,26 @@ public class Persistence {
 	private static final String CHAMP_BACKUP_PATH = Paths.get(BASE_PATH, "champions.txt").toString();
 
 	public static void prepareFolder() {
-		prepare(BASE_PATH);
-		prepare(JOURNALS_PATH);
-	}
-
-	private static void prepare(String path) {
-		if (!Files.exists(Paths.get(path))) {
-			try {
-				Files.createDirectories(Paths.get(path));
-			} catch (IOException e) {
-				throw new RuntimeException("Failed to create directories: " + path, e);
-			}
+		try {
+			Files.createDirectories(Paths.get(BASE_PATH));
+			Files.createDirectories(Paths.get(JOURNALS_PATH));
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to create directories.", e);
 		}
+		LOGGER.debug("Folder under " + BASE_PATH + " prepared.");
 	}
 
 	public static ObservableList<Journal> loadJournals() {
 		ObservableList<Journal> journals = FXCollections.observableList(new ArrayList<>());
 		try (Stream<Path> files = Files.list(Paths.get(JOURNALS_PATH))) {
-			files.forEach(new Consumer<Path>() {
-				@Override
-				public void accept(Path path) {
-					if (path.toString().endsWith(".xml")) {
-						try {
-							Journal journal = XmlUtil.unmarshall(path.toFile(), Journal.class);
-							journal.setFilePath(path);
-							journals.add(journal);
-						} catch (JAXBException e) {
-							LOGGER.error("Failed to unmarshall " + path, e);
-						}
+			files.forEach(path -> {
+				if (path.toString().endsWith(".xml")) {
+					try {
+						Journal journal = XmlUtil.unmarshall(path.toFile(), Journal.class);
+						journal.setFilePath(path);
+						journals.add(journal);
+					} catch (JAXBException e) {
+						LOGGER.error("Failed to unmarshall " + path, e);
 					}
 				}
 			});
@@ -74,10 +66,10 @@ public class Persistence {
 	}
 
 	public static void savejournals(List<Journal> journals) {
-		LOGGER.debug("Trying to save " + journals.size() + " journals.");
 		for (Journal journal : journals) {
 			savejournal(journal);
 		}
+		LOGGER.debug("Saved " + journals.size() + " journals.");
 	}
 
 	public static void savejournal(Journal journal) {
@@ -124,15 +116,24 @@ public class Persistence {
 		} catch (IOException e) {
 			LOGGER.error("Failed to save config.", e);
 		}
-
 	}
 
 	public static List<String> loadChampionBackup() {
 		List<String> champs = new ArrayList<>();
 		try {
 			champs.addAll(Files.readAllLines(Paths.get(CHAMP_BACKUP_PATH)));
+			LOGGER.debug("Loaded champions from backup.");
 		} catch (IOException e) {
 			LOGGER.warn("No champion backup found!");
+		}
+		if (champs.isEmpty()) {
+			try {
+				Path resourcePath = Paths.get(Persistence.class.getResource("champions.txt").toURI());
+				champs.addAll(Files.readAllLines(resourcePath));
+				LOGGER.debug("Loaded champs from resources: " + resourcePath);
+			} catch (URISyntaxException | IOException e) {
+				LOGGER.error("Failed to load default champion resource!", e);
+			}
 		}
 		return champs;
 	}
@@ -145,6 +146,7 @@ public class Persistence {
 					writer.write(champ + System.getProperty("line.separator"));
 				}
 			}
+			LOGGER.debug("Saved new champion backup.");
 		} catch (IOException e) {
 			LOGGER.error("Failed to save champion backup!", e);
 		}

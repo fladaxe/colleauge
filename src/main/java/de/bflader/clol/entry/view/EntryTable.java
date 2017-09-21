@@ -1,4 +1,4 @@
-package de.bflader.clol.journal.view;
+package de.bflader.clol.entry.view;
 
 import java.util.Date;
 import java.util.Enumeration;
@@ -9,14 +9,15 @@ import javax.swing.table.TableColumn;
 
 import de.bflader.clol.common.gui.DateTableCellRenderer;
 import de.bflader.clol.common.gui.RatingRenderer;
+import de.bflader.clol.entry.EntryTableModel;
 
-public class JournalTable extends JTable {
+public class EntryTable extends JTable {
 
 	private static final long serialVersionUID = 5093541026718964069L;
 
-	public JournalTableModel model = new JournalTableModel();
+	public EntryTableModel model = new EntryTableModel();
 
-	public JournalTable() {
+	public EntryTable() {
 		super();
 		setModel(model);
 		setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
@@ -32,7 +33,7 @@ public class JournalTable extends JTable {
 		Enumeration<TableColumn> columns = getTableHeader().getColumnModel().getColumns();
 		while (columns.hasMoreElements()) {
 			TableColumn column = columns.nextElement();
-			JournalTableColumns journalColumn = JournalTableColumns.values()[column.getModelIndex()];
+			EntryTableColumns journalColumn = EntryTableColumns.values()[column.getModelIndex()];
 			column.setMinWidth(journalColumn.getMinWidth());
 			column.setPreferredWidth(journalColumn.getPreferredWidth());
 		}

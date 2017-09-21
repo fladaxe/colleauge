@@ -1,4 +1,4 @@
-package de.bflader.clol.journal.view;
+package de.bflader.clol.entry;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -8,14 +8,14 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.bflader.clol.entry.Entry;
+import de.bflader.clol.entry.view.EntryTableColumns;
 import de.bflader.clol.journal.Journal;
 
-public class JournalTableModel extends AbstractTableModel implements Observer {
+public class EntryTableModel extends AbstractTableModel implements Observer {
 
 	private static final long serialVersionUID = -2926095521089177791L;
 
-	private static final Logger LOGGER = LogManager.getLogger(JournalTableModel.class);
+	private static final Logger LOGGER = LogManager.getLogger(EntryTableModel.class);
 
 	private Journal journal;
 
@@ -29,17 +29,17 @@ public class JournalTableModel extends AbstractTableModel implements Observer {
 
 	@Override
 	public int getColumnCount() {
-		return JournalTableColumns.values().length;
+		return EntryTableColumns.values().length;
 	}
 
 	@Override
 	public String getColumnName(int columnIndex) {
-		return JournalTableColumns.values()[columnIndex].getName();
+		return EntryTableColumns.values()[columnIndex].getName();
 	}
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		return JournalTableColumns.values()[columnIndex].getType();
+		return EntryTableColumns.values()[columnIndex].getType();
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class JournalTableModel extends AbstractTableModel implements Observer {
 			return null;
 		}
 		Entry entry = getJournal().getEntries().get(rowIndex);
-		JournalTableColumns column = JournalTableColumns.values()[columnIndex];
+		EntryTableColumns column = EntryTableColumns.values()[columnIndex];
 		switch (column) {
 		case CREATED:
 			return entry.getCreated();
