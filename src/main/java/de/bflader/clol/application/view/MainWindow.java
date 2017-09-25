@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import de.bflader.clol.entry.table.EntryTable;
 import de.bflader.clol.entry.view.EntryControlPanel;
-import de.bflader.clol.entry.view.EntryTable;
 import de.bflader.clol.journal.view.JournalControlPanel;
 
 public class MainWindow {

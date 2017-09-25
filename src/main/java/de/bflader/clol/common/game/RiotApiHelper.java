@@ -36,15 +36,17 @@ public class RiotApiHelper {
 			for (Champion champ : api.getDataChampionList(Platform.EUW).getData().values()) {
 				champs.add(champ.getName());
 			}
-			Persistence.saveChampionBackup(champs);
 		} catch (RiotApiException e) {
 			LOGGER.warn("Failed to get champion data: " + e.getMessage());
 		}
 		if (champs.isEmpty()) {
-			LOGGER.debug("Loading champions from backup.");
 			champs.addAll(Persistence.loadChampionBackup());
 		}
+		if( champs.isEmpty()){
+			champs.addAll(Persistence.loadChampionDefault());
+		}
 		Collections.sort(champs);
+		Persistence.saveChampionBackup(champs);
 		LOGGER.debug("Champions prepared.");
 	}
 

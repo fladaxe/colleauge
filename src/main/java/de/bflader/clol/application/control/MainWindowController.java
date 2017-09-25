@@ -1,20 +1,24 @@
 package de.bflader.clol.application.control;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.AbstractAction;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.bflader.clol.application.view.MainWindow;
+import de.bflader.clol.common.game.Role;
 import de.bflader.clol.common.gui.UIHelper;
-import de.bflader.clol.entry.Entry;
+import de.bflader.clol.entry.JournalEntry;
+import de.bflader.clol.entry.table.EntryTableModel;
 import de.bflader.clol.entry.view.EntryEditor;
 import de.bflader.clol.journal.Journal;
 import de.bflader.clol.persistence.Persistence;
@@ -49,18 +53,43 @@ public class MainWindowController extends WindowAdapter {
 				}
 			}
 		});
-
-		String aCommmand = "ESCAPE";
-		window.frame.getRootPane().getInputMap().put(null, aCommmand);
-		window.frame.getRootPane().getActionMap().put(aCommmand, new AbstractAction() {
-			private static final long serialVersionUID = -5089207966171435499L;
-
+		window.filterPanel.opponentCbb.addItemListener(this::filterChanged);
+		window.filterPanel.playedCbb.addItemListener(this::filterChanged);
+		window.filterPanel.ratingCbb.addItemListener(this::filterChanged);
+		window.filterPanel.roleCbb.addItemListener(this::filterChanged);
+		TableRowSorter<EntryTableModel> sorter = new TableRowSorter<>(window.entryTable.model);
+		sorter.setRowFilter(new RowFilter<EntryTableModel, Integer>() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				onQuit(null);
-			}
+			public boolean include(Entry<? extends EntryTableModel, ? extends Integer> includeEntry) {
+				JournalEntry entry = includeEntry.getModel().getEntry(includeEntry.getIdentifier());
 
+				String filterOpponent = (String) window.filterPanel.opponentCbb.getSelectedItem();
+				String filterPlayed = (String) window.filterPanel.playedCbb.getSelectedItem();
+				Role filterRole = (Role) window.filterPanel.roleCbb.getSelectedItem();
+				int filterRating = (int) window.filterPanel.ratingCbb.getSelectedItem();
+
+				String opponent = entry.getOpponentChampion();
+				String played = entry.getPlayedChampion();
+				Role role = entry.getRole();
+				int rating = entry.getRating();
+
+				String any = JournalEntry.ANY_CHAMPION;
+
+				boolean opponentMatches = any.equals(filterOpponent) || any.equals(opponent)
+						|| filterOpponent.equals(opponent);
+				boolean playedMatches = any.equals(filterPlayed) || any.equals(played) || filterPlayed.equals(played);
+				boolean roleMatches = Role.ANY.equals(filterRole) || Role.ANY.equals(filterRole)
+						|| filterRole.equals(role);
+				boolean ratingMatches = rating >= filterRating;
+
+				return opponentMatches && playedMatches && roleMatches && ratingMatches;
+			}
 		});
+		window.entryTable.setRowSorter(sorter);
+	}
+
+	public void filterChanged(ItemEvent e) {
+		window.entryTable.model.fireTableDataChanged();
 	}
 
 	private void onJournalSelectionChanged(ActionEvent e) {
@@ -101,7 +130,7 @@ public class MainWindowController extends WindowAdapter {
 	private void onNewEntry(ActionEvent e) {
 		Journal journal = window.journalControlPanel.model.getSelectedItem();
 		if (journal != null) {
-			Entry entry = new Entry();
+			JournalEntry entry = new JournalEntry();
 			EntryEditor editor = new EntryEditor(window.frame);
 			editor.setValuesFrom(entry);
 			editor.setModal(true);
@@ -118,7 +147,7 @@ public class MainWindowController extends WindowAdapter {
 		int selectedRow = window.entryTable.getSelectedRow();
 		if (selectedRow > -1) {
 			int modelIndex = window.entryTable.convertRowIndexToModel(selectedRow);
-			Entry entry = window.entryTable.model.getEntry(modelIndex);
+			JournalEntry entry = window.entryTable.model.getEntry(modelIndex);
 			EntryEditor editor = new EntryEditor(window.frame);
 			editor.setValuesFrom(entry);
 			editor.setModal(true);
@@ -134,7 +163,7 @@ public class MainWindowController extends WindowAdapter {
 		int selectedRow = window.entryTable.getSelectedRow();
 		if (selectedRow > -1) {
 			int modelIndex = window.entryTable.convertRowIndexToModel(selectedRow);
-			Entry entry = window.entryTable.model.getEntry(modelIndex);
+			JournalEntry entry = window.entryTable.model.getEntry(modelIndex);
 			window.journalControlPanel.model.getSelectedItem().remove(entry);
 		}
 	}

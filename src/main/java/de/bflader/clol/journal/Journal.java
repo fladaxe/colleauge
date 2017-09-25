@@ -11,17 +11,17 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import de.bflader.clol.entry.Entry;
+import de.bflader.clol.entry.JournalEntry;
 
 @XmlRootElement
 public class Journal extends Observable {
 
 	private String name;
-	private List<Entry> entries = new ArrayList<>();
+	private List<JournalEntry> entries = new ArrayList<>();
 	private Path filePath;
 	private Date created = new Date();
 
-	public void addEntry(Entry entry) {
+	public void addEntry(JournalEntry entry) {
 		if (!entries.contains(entry)) {
 			entries.add(entry);
 			setChanged();
@@ -29,7 +29,7 @@ public class Journal extends Observable {
 		}
 	}
 
-	public void remove(Entry entry) {
+	public void remove(JournalEntry entry) {
 		if (entries.remove(entry)) {
 			setChanged();
 			notifyObservers();
@@ -53,7 +53,7 @@ public class Journal extends Observable {
 	}
 
 	@XmlElement(name = "entry")
-	public List<Entry> getEntries() {
+	public List<JournalEntry> getEntries() {
 		return entries;
 	}
 

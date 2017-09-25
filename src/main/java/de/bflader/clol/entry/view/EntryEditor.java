@@ -11,7 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import de.bflader.clol.common.game.Role;
-import de.bflader.clol.entry.Entry;
+import de.bflader.clol.entry.JournalEntry;
 
 public class EntryEditor extends JDialog {
 
@@ -34,7 +34,7 @@ public class EntryEditor extends JDialog {
 		add(buttonPanel, BorderLayout.SOUTH);
 		pack();
 		setResizable(false);
-		setMinimumSize(new Dimension(500,getHeight()));
+		setMinimumSize(new Dimension(500, getHeight()));
 		setLocationRelativeTo(parent);
 	}
 
@@ -47,20 +47,22 @@ public class EntryEditor extends JDialog {
 		dispose();
 	}
 
-	public void setValuesFrom(Entry entry) {
+	public void setValuesFrom(JournalEntry entry) {
 		if (entry != null) {
-			entryPanel.playedChampion.setSelectedItem(entry.getPlayedChampion());
-			entryPanel.opponentChampion.setSelectedItem(entry.getOpponentChampion());
-			entryPanel.role.setSelectedItem(entry.getRole());
+			entryPanel.playedCbb.setSelectedItem(entry.getPlayedChampion());
+			entryPanel.opponentCbb.setSelectedItem(entry.getOpponentChampion());
+			entryPanel.roleCbb.setSelectedItem(entry.getRole());
 			entryPanel.textArea.setText(entry.getText());
+			entryPanel.ratingCbb.setSelectedItem(entry.getRating());
 		}
 	}
 
-	public void writeToEntry(Entry entry) {
-		entry.setOpponentChampion((String) entryPanel.opponentChampion.getSelectedItem());
-		entry.setPlayedChampion((String) entryPanel.playedChampion.getSelectedItem());
-		entry.setRole((Role) entryPanel.role.getSelectedItem());
+	public void writeToEntry(JournalEntry entry) {
+		entry.setOpponentChampion((String) entryPanel.opponentCbb.getSelectedItem());
+		entry.setPlayedChampion((String) entryPanel.playedCbb.getSelectedItem());
+		entry.setRole((Role) entryPanel.roleCbb.getSelectedItem());
 		entry.setText(entryPanel.textArea.getText());
+		entry.setRating((int) entryPanel.ratingCbb.getSelectedItem());
 	}
 
 	public boolean exitedWithSave() {

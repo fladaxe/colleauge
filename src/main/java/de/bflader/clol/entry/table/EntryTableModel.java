@@ -1,4 +1,4 @@
-package de.bflader.clol.entry;
+package de.bflader.clol.entry.table;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -8,7 +8,7 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.bflader.clol.entry.view.EntryTableColumns;
+import de.bflader.clol.entry.JournalEntry;
 import de.bflader.clol.journal.Journal;
 
 public class EntryTableModel extends AbstractTableModel implements Observer {
@@ -47,7 +47,7 @@ public class EntryTableModel extends AbstractTableModel implements Observer {
 		if (getJournal() == null || getJournal().getEntries().isEmpty()) {
 			return null;
 		}
-		Entry entry = getJournal().getEntries().get(rowIndex);
+		JournalEntry entry = getJournal().getEntries().get(rowIndex);
 		EntryTableColumns column = EntryTableColumns.values()[columnIndex];
 		switch (column) {
 		case CREATED:
@@ -88,11 +88,11 @@ public class EntryTableModel extends AbstractTableModel implements Observer {
 		fireTableDataChanged();
 	}
 
-	public Entry getEntry(int index) {
+	public JournalEntry getEntry(int index) {
 		return journal.getEntries().get(index);
 	}
 	
-	public int getIndex(Entry entry){
+	public int getIndex(JournalEntry entry){
 		return journal.getEntries().indexOf(entry);
 	}
 

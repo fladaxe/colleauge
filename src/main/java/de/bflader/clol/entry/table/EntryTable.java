@@ -1,4 +1,4 @@
-package de.bflader.clol.entry.view;
+package de.bflader.clol.entry.table;
 
 import java.util.Date;
 import java.util.Enumeration;
@@ -6,10 +6,10 @@ import java.util.Enumeration;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 
 import de.bflader.clol.common.gui.DateTableCellRenderer;
 import de.bflader.clol.common.gui.RatingRenderer;
-import de.bflader.clol.entry.EntryTableModel;
 
 public class EntryTable extends JTable {
 
@@ -25,7 +25,7 @@ public class EntryTable extends JTable {
 		setDefaultRenderer(Date.class, new DateTableCellRenderer());
 		setDefaultRenderer(Integer.class, new RatingRenderer());
 		getTableHeader().setReorderingAllowed(false);
-		setAutoCreateRowSorter(true);
+		setRowSorter(new TableRowSorter<EntryTableModel>(model));
 		adjustColumnWidths();
 	}
 

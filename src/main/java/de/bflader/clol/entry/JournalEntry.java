@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import de.bflader.clol.common.game.Role;
 
 @XmlRootElement
-public class Entry {
+public class JournalEntry {
 
 	public static final String ANY_CHAMPION = "- Any -";
 
@@ -72,5 +72,10 @@ public class Entry {
 
 	public void setCreated(Date created) {
 		this.created = created;
+	}
+
+	@Override
+	public String toString() {
+		return "Entry: " + rating + " / " + playedChampion + " / " + role + " / " + opponentChampion;
 	}
 }

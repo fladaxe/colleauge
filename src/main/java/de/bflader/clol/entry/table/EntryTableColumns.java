@@ -1,4 +1,4 @@
-package de.bflader.clol.entry.view;
+package de.bflader.clol.entry.table;
 
 import java.util.Date;
 

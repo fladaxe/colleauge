@@ -9,7 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.bflader.clol</groupId>
 	<artifactId>clol</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>CLoL</name>
 	<packaging>jar</packaging>
 	<properties>

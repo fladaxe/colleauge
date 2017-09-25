@@ -1,11 +1,13 @@
 package de.bflader.clol.persistence;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -126,15 +128,6 @@ public class Persistence {
 		} catch (IOException e) {
 			LOGGER.warn("No champion backup found!");
 		}
-		if (champs.isEmpty()) {
-			try {
-				Path resourcePath = Paths.get(Persistence.class.getResource("champions.txt").toURI());
-				champs.addAll(Files.readAllLines(resourcePath));
-				LOGGER.debug("Loaded champs from resources: " + resourcePath);
-			} catch (URISyntaxException | IOException e) {
-				LOGGER.error("Failed to load default champion resource!", e);
-			}
-		}
 		return champs;
 	}
 
@@ -150,6 +143,22 @@ public class Persistence {
 		} catch (IOException e) {
 			LOGGER.error("Failed to save champion backup!", e);
 		}
+	}
+
+	public static List<String> loadChampionDefault() {
+		List<String> champs = new ArrayList<>();
+		try (InputStream is = Persistence.class.getClassLoader().getResourceAsStream("champions.txt")) {
+			try (InputStreamReader isr = new InputStreamReader(is)) {
+				try (BufferedReader br = new BufferedReader(isr)) {
+					while (br.ready()) {
+						champs.add(br.readLine());
+					}
+				}
+			}
+		} catch (IOException e) {
+			LOGGER.error("Failed to load default champion resource!", e);
+		}
+		return champs;
 	}
 
 }
